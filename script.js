@@ -9,7 +9,7 @@ const firebaseConfig = {
     projectId: "dardos-a95b2",
     storageBucket: "dardos-a95b2.firebasestorage.app",
     messagingSenderId: "850308611572",
-    appId: "1:850308611572:web:d8393cdc17f5b6fb7e8da1
+    appId: "1:850308611572:web:d8393cdc17f5b6fb7e8da1"
   };
   
   // Inicializar Firebase
