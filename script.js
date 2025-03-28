@@ -253,5 +253,4 @@ modulosRef.orderBy("puntaje", "desc").onSnapshot(snapshot => {
 // ----------------------------
 
 // Llamar a updateDimensions al cargar la página y en cada redimensionamiento
-window.addEventListener("load", updateDimensions);
-window.addEventListener("resize", updateDimensions);
+
