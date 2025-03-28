@@ -118,19 +118,4 @@ button:hover {
   background: #dc3545;
 }
 
-/* Media queries para pantallas pequeñas */
-@media (max-width: 480px) {
-  .container {
-    padding: 15px;
-    margin: 10px;
-  }
 
-  button {
-    font-size: 0.9rem;
-    padding: 8px;
-  }
-
-  .scoreboard {
-    font-size: 1rem;
-  }
-}
