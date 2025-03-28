@@ -4,12 +4,12 @@
 // Configuración de Firebase
 // ----------------------------
 const firebaseConfig = {
-  apiKey: "AIzaSyCFd1cvTI2Upd3zpEETxvzp7fRTKVdeqTQ",
-  authDomain: "dardos-a95b2.firebaseapp.com",
-  projectId: "dardos-a95b2",
-  storageBucket: "dardos-a95b2.firebasestorage.app",
-  messagingSenderId: "850308611572",
-  appId: "1:850308611572:web:d8393cdc17f5b6fb7e8da1"
+  apiKey: "AIzaSyCJwQqzR3MyvvcD1KiY7e6M02eyTLKF6KM",
+  authDomain: "juegoviernes-ab613.firebaseapp.com",
+  projectId: "juegoviernes-ab613",
+  storageBucket: "juegoviernes-ab613.firebasestorage.app",
+  messagingSenderId: "248309204234",
+  appId: "1:248309204234:web:c11a9992652a7d9714a6f3"
 };
 
 // Inicializar Firebase
@@ -38,32 +38,16 @@ let jugadorActual = "";
 let puntajeActual = 0;
 let dardosRestantes = 5;
 
-// Parámetros del dartboard (se actualizarán dinámicamente)
-let boardCenter = { x: dartboardCanvas.width / 2, y: dartboardCanvas.height / 2 };
-let boardRadius = dartboardCanvas.width / 2;
-let bullseyeRadius = boardRadius * 0.15;   // 15% del radio: 50 puntos
-let innerRingRadius = boardRadius * 0.35;    // 35%: 25 puntos
-let outerRingRadius = boardRadius * 0.60;    // 60%: 10 puntos
+// Parámetros del dartboard
+const boardCenter = { x: dartboardCanvas.width / 2, y: dartboardCanvas.height / 2 };
+const boardRadius = dartboardCanvas.width / 2;
+const bullseyeRadius = boardRadius * 0.15;   // 15% del radio: 50 puntos
+const innerRingRadius = boardRadius * 0.35;    // 35%: 25 puntos
+const outerRingRadius = boardRadius * 0.60;    // 60%: 10 puntos
 
 // ----------------------------
 // Funciones del Juego
 // ----------------------------
-
-// Actualiza dimensiones del canvas y parámetros del dartboard
-function updateDimensions() {
-  // Usamos el ancho del canvas desde su estilo (offsetWidth) para que se adapte al contenedor
-  const canvasSize = dartboardCanvas.offsetWidth;
-  dartboardCanvas.width = canvasSize;
-  dartboardCanvas.height = canvasSize;
-
-  boardCenter = { x: canvasSize / 2, y: canvasSize / 2 };
-  boardRadius = canvasSize / 2;
-  bullseyeRadius = boardRadius * 0.15;
-  innerRingRadius = boardRadius * 0.35;
-  outerRingRadius = boardRadius * 0.60;
-
-  dibujarDiana();
-}
 
 // Dibuja la diana con círculos y colores
 function dibujarDiana() {
@@ -159,22 +143,22 @@ dartboardCanvas.addEventListener("click", (e) => {
   const rect = dartboardCanvas.getBoundingClientRect();
   const x = e.clientX - rect.left;
   const y = e.clientY - rect.top;
-
+  
   // Desplazamiento aleatorio en el eje X (entre 0 y 10 píxeles)
   const offsetX = Math.floor(Math.random() * 11); // 0 a 10 inclusive
-  // Desplazamiento aleatorio en el eje Y (entre 10 y 200 píxeles)
+  // Desplazamiento aleatorio en el eje Y (entre 10 y 60 píxeles)
   const offsetY = Math.floor(Math.random() * (200 - 10 + 1)) + 10;
-
+  
   const xAjustado = x + offsetX;
   const yAjustado = y + offsetY;
-
+  
   // Calcular puntaje del lanzamiento usando la posición ajustada
   const puntajeLanzado = calcularPuntaje(xAjustado, yAjustado);
   puntajeActual += puntajeLanzado;
   dardosRestantes--;
   puntajeActualSpan.textContent = puntajeActual;
   dardosRestantesSpan.textContent = dardosRestantes;
-
+  
   // Dibujar el dardo sobre la diana en la posición ajustada
   dibujarDardo(xAjustado, yAjustado);
 });
@@ -182,7 +166,7 @@ dartboardCanvas.addEventListener("click", (e) => {
 // Finalizar juego: guardar resultado en Firebase, reiniciar el juego y mostrar la pantalla inicial para el siguiente jugador
 btnFinalizar.addEventListener("click", () => {
   if (jugadorActual === "") return;
-
+  
   modulosRef.add({
     nombre: jugadorActual,
     puntaje: puntajeActual
@@ -216,13 +200,13 @@ function renderModulo(doc) {
       <button class="delete">Eliminar</button>
     </div>
   `;
-
+  
   // Botón Eliminar
   li.querySelector(".delete").addEventListener("click", () => {
     let id = li.getAttribute("data-id");
     modulosRef.doc(id).delete();
   });
-
+  
   // Botón Editar: permite actualizar nombre y puntaje
   li.querySelector(".edit").addEventListener("click", () => {
     let id = li.getAttribute("data-id");
@@ -235,7 +219,7 @@ function renderModulo(doc) {
       });
     }
   });
-
+  
   resultadosList.appendChild(li);
 }
 
@@ -248,9 +232,5 @@ modulosRef.orderBy("puntaje", "desc").onSnapshot(snapshot => {
   });
 });
 
-// ----------------------------
-// Inicialización y Responsividad
-// ----------------------------
-
-// Llamar a updateDimensions al cargar la página y en cada redimensionamiento
-
+// Dibuja la diana al cargar la página
+dibujarDiana();
